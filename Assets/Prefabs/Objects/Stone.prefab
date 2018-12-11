@@ -20,6 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4721153244715746}
   - component: {fileID: 212643539407342254}
+  - component: {fileID: 114313482281959860}
+  - component: {fileID: 58513244718220688}
   m_Layer: 0
   m_Name: Stone
   m_TagString: Untagged
@@ -40,6 +42,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &58513244718220688
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1699974115590854}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.08
+--- !u!114 &114313482281959860
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1699974115590854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c3bec13ad4e5af4fbb85caa2ca05b0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 100
+  TypeOfObject: Stone
 --- !u!212 &212643539407342254
 SpriteRenderer:
   m_ObjectHideFlags: 1
