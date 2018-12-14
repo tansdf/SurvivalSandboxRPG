@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryScript : MonoBehaviour {
 
@@ -19,6 +20,13 @@ public class InventoryScript : MonoBehaviour {
 	}
 		
 	public List<Item> InventoryList = new List<Item>();
+	public List<GameObject> ItemBarSlots = new List<GameObject>();
+	public GameObject ItemBar;
+
+	void Start()
+	{
+		//SetItemSlot (new Item ("Stone", 12), 1);
+	}
 
 	public void AddToInventory(string _name, int _amount)
 	{
@@ -30,10 +38,18 @@ public class InventoryScript : MonoBehaviour {
 			//Так как элементы списка нельзя изменять, их можно только заменять или считывать
 			int indElement = InventoryList.IndexOf(InventoryList.Find (x => x.name == _name));
 			InventoryList[indElement] = new Item (_name, InventoryList[indElement].amount + _amount);
+			SetItemSlot (InventoryList [indElement], indElement);
 		} else 
 		{
 			this.InventoryList.Add (new Item (_name, _amount));
+			if(InventoryList.Count <= 8)
+				SetItemSlot (InventoryList.FindLast(x => x.name != null), InventoryList.FindLastIndex(x => x.name != null));
 		}
-		Debug.Log (InventoryList [0].amount + "   " + InventoryList [0].name);
+	}
+
+	public void SetItemSlot(Item item, int index)
+	{
+		ItemBarSlots [index].GetComponent<Image> ().sprite = ItemBar.GetComponent<GUIItemBar> ().getSprite (item.name);
+		ItemBarSlots [index].GetComponentsInChildren<Text> () [0].text = item.amount.ToString ();
 	}
 }

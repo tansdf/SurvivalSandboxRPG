@@ -8,6 +8,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
 	public float speed = 1.0f;
+	public int hp = 100;
 
 	private Rigidbody2D rb2D;
 
