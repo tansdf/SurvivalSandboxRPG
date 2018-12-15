@@ -3,20 +3,17 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.UI;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
 	public float speed = 1.0f;
 	public int hp = 100;
-    public Text respectText;
 
 	private Rigidbody2D rb2D;
 
 	void Start () {
-		rb2D = GetComponent<Rigidbody2D>();
-        respectText.text = "";
+		rb2D = GetComponent<Rigidbody2D>();	
 	}
 	
 	// Update is called once per frame
@@ -40,30 +37,14 @@ public class PlayerController : MonoBehaviour {
 		{
 			Harvest (coll.gameObject);
 		}
+	}
 
-        if (coll.gameObject.tag.Equals("GraveForRespect"))
-        {
-            if (Input.GetKey("f"))
-            {
-                respectText.text = "You paid Respect";
-            }
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag.Equals("GraveForRespect"))
-        {
-              respectText.text = "";            
-        }
-    }
-
-    //Метод добычи. 
-    void Harvest(GameObject GO)
+	//Метод добычи. 
+	void Harvest(GameObject GO)
 	{
 		if (Input.GetKey("space")) 
 		{
 			GO.GetComponent<ObjectScript> ().Hit(gameObject);
 		}
-	}    
+	}
 }

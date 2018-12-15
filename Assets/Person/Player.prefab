@@ -204,8 +204,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fff873e9cf474f247a9e4a957812a4dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemBarSlots: []
-  ItemBar: {fileID: 0}
 --- !u!114 &114161492407886528
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -218,8 +216,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  hp: 100
-  respectText: {fileID: 0}
 --- !u!212 &212390329574374192
 SpriteRenderer:
   m_ObjectHideFlags: 1
