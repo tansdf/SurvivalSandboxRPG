@@ -70,6 +70,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 50
   TypeOfObject: Wood
+  LootAmount: 5
 --- !u!212 &212799201297687248
 SpriteRenderer:
   m_ObjectHideFlags: 1

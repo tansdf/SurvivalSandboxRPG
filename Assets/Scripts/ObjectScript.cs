@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class ObjectScript : MonoBehaviour {
 
-	public int hp;
-	public string TypeOfObject;
 
+	public int hp;
+	//Тип выпадаемого объекта
+	public string TypeOfObject;
+	//Количество выпадаемого объекта
+	public int LootAmount;
 	//Передается ссылка на игровой обьект персонажа
 	public void Hit(GameObject playerGO)
 	{
 		hp--;
 		if (hp <= 0) 
 		{
-			playerGO.GetComponent<InventoryScript> ().AddToInventory ("stone", 5);
+			playerGO.GetComponent<InventoryScript> ().AddToInventory (TypeOfObject, LootAmount);
 			Destroy (gameObject);
 		}
 	}
