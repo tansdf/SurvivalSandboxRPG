@@ -49,7 +49,7 @@ public class InventoryScript : MonoBehaviour {
 
 	public void SetItemSlot(Item item, int index)
 	{
-		ItemBarSlots [index].GetComponent<Image> ().sprite = ItemBar.GetComponent<GUIItemBar> ().getSprite (item.name);
+		ItemBarSlots [index].GetComponentsInChildren<Image> ()[1].sprite = ItemBar.GetComponent<GUIItemBar> ().getSprite (item.name);
 		ItemBarSlots [index].GetComponentsInChildren<Text> () [0].text = item.amount.ToString ();
 	}
 }
