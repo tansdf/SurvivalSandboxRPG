@@ -9,9 +9,12 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
 	public float speed = 1.0f;
-	public int hp = 100;
+	public float hp = 100.0f;
+	//Сытость
+	public float satiety = 100.0f;
     public Text respectText;
-
+	public GameObject HPBar;
+	public GameObject HungerBar;
 	private Rigidbody2D rb2D;
 
 	void Start () {
@@ -29,7 +32,17 @@ public class PlayerController : MonoBehaviour {
 
 	void Update()
 	{
-		
+		if (satiety >= 0) 
+		{
+			satiety = satiety - Time.deltaTime;
+			HungerBar.GetComponent<Slider> ().value = satiety / 100;
+		}
+		if (hp >= 0.0f) 
+			HPBar.GetComponent<Slider> ().value = hp / 100;
+		if (satiety <= 0)
+			Hit (1);
+		if (Input.GetKeyUp ("e"))
+			Use();
 	}
 
 	//Когда в триггер персонажа (область рядом с ним) попадает какой то объект
@@ -65,5 +78,32 @@ public class PlayerController : MonoBehaviour {
 		{
 			GO.GetComponent<ObjectScript> ().Hit(gameObject);
 		}
-	}    
+	}
+
+	//Пинок
+	void Hit(int damage)
+	{
+		if(hp >= 0)
+			hp = hp - Time.deltaTime * 5;
+		/*if(hp <= 0)
+		{
+		//Он помирает	
+		}*/
+	}
+	void Use()
+	{
+		InventoryScript InvScript = this.GetComponent<InventoryScript> ();
+		int selind =InvScript.SelectedIndex;
+		//Debug.Log (selind + "  " + InvScript.InventoryList.Count);
+		if (selind != -1 && InvScript.InventoryList.Count > selind) 
+		{
+			if (InvScript.InventoryList [selind].name == "Apple") 
+			{
+				satiety += 50.0f;
+				if (satiety > 100)
+					satiety = 100.0f;
+				InvScript.DeleteFromInventory (InvScript.InventoryList [selind].name, 1);
+			}
+		}
+	}
 }
