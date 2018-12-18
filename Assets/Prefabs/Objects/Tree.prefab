@@ -71,6 +71,8 @@ MonoBehaviour:
   hp: 50
   TypeOfObject: Wood
   LootAmount: 5
+  TypeOfRandomObject: Apple
+  MaxLootAmount: 1
 --- !u!212 &212799201297687248
 SpriteRenderer:
   m_ObjectHideFlags: 1

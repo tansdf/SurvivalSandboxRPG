@@ -204,7 +204,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fff873e9cf474f247a9e4a957812a4dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemBarSlots: []
+  ItemBarSlots:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   ItemBar: {fileID: 0}
 --- !u!114 &114161492407886528
 MonoBehaviour:
@@ -217,9 +225,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2680770e5c7d09f44903c0db911247fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 2
   hp: 100
+  satiety: 100
   respectText: {fileID: 0}
+  HPBar: {fileID: 0}
+  HungerBar: {fileID: 0}
 --- !u!212 &212390329574374192
 SpriteRenderer:
   m_ObjectHideFlags: 1
