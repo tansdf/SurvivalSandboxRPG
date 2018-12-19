@@ -12,15 +12,15 @@ public class boar : MonoBehaviour {
     float tm;
     // Use this for initialization
     void Start () {
-        float bx = transform.position.x;
-        float by = transform.position.y;
+         bx = transform.position.x;
+         by = transform.position.y;
     }
 	
 	// Update is called once per frame
 	void Update () {
         float x = transform.position.x;
         float y = transform.position.y;
-        if (flagpos&(Mathf.Abs(bx - x) < 3 | Mathf.Abs(by - y) < 3)) { transform.Translate(Vector2.right * speed * Time.deltaTime); }
+        if (flagpos&(Mathf.Abs(bx - x) < 3 )) { transform.Translate(Vector2.right * speed * Time.deltaTime); }
         else {
             if (flagpos) { tm = Time.realtimeSinceStartup; }
 
@@ -32,7 +32,7 @@ public class boar : MonoBehaviour {
            
 
             flagpos = false;
-            if (Mathf.Abs(bx - x) < 0.5| Mathf.Abs(by - y) < 0.5) { flagpos = true; }
+            if (Mathf.Abs(bx - x) < 0.5) { flagpos = true; }
         }
        
 	}
