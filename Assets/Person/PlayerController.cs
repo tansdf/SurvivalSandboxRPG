@@ -12,9 +12,13 @@ public class PlayerController : MonoBehaviour {
 	public float hp = 100.0f;
 	//Сытость
 	public float satiety = 100.0f;
+
     public Text respectText;
 	public GameObject HPBar;
 	public GameObject HungerBar;
+	public GameObject ProgressBar;
+
+	private GameObject MinedObjectRef;
 	private Rigidbody2D rb2D;
 
 	void Start () {
@@ -77,6 +81,9 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetKey("space")) 
 		{
 			GO.GetComponent<ObjectScript> ().Hit(gameObject);
+			ProgressBar.GetComponent<Slider> ().value = 100.0f - GO.GetComponent<ObjectScript> ().hp;
+			if (GO == null)
+				ProgressBar.GetComponent<Slider> ().value = 0.0f;
 		}
 	}
 
