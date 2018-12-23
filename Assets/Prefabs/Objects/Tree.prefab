@@ -68,6 +68,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c3bec13ad4e5af4fbb85caa2ca05b0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxhp: 50
   hp: 50
   TypeOfObject: Wood
   LootAmount: 5

@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour {
 
 	void Start () {
 		rb2D = GetComponent<Rigidbody2D>();
+		ProgressBar.SetActive (false);
         respectText.text = "";
 	}
 	
@@ -78,12 +79,20 @@ public class PlayerController : MonoBehaviour {
     //Метод добычи. 
     void Harvest(GameObject GO)
 	{
-		if (Input.GetKey("space")) 
-		{
-			GO.GetComponent<ObjectScript> ().Hit(gameObject);
-			ProgressBar.GetComponent<Slider> ().value = 100.0f - GO.GetComponent<ObjectScript> ().hp;
+		if (Input.GetKey ("space")) {
+			ProgressBar.SetActive (true);
+			GO.GetComponent<ObjectScript> ().Hit (gameObject);
+			ProgressBar.GetComponent<Slider> ().value = 100.0f - ((float)GO.GetComponent<ObjectScript> ().hp / GO.GetComponent<ObjectScript> ().maxhp) * 100.0f;
 			if (GO == null)
 				ProgressBar.GetComponent<Slider> ().value = 0.0f;
+			ColorBlock cb = ProgressBar.GetComponent<Slider> ().colors;
+			cb.disabledColor = new Color (0.2f, ProgressBar.GetComponent<Slider> ().value / 100, 0, 1);
+			ProgressBar.GetComponent<Slider> ().colors = cb;
+			if (ProgressBar.GetComponent<Slider> ().value == 100.0f)
+				ProgressBar.SetActive (false);
+		} else 
+		{
+			ProgressBar.SetActive (false);
 		}
 	}
 

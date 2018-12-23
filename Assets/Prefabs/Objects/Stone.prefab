@@ -68,9 +68,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c3bec13ad4e5af4fbb85caa2ca05b0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxhp: 100
   hp: 100
   TypeOfObject: Stone
   LootAmount: 5
+  TypeOfRandomObject: 
+  MaxLootAmount: 0
 --- !u!212 &212643539407342254
 SpriteRenderer:
   m_ObjectHideFlags: 1

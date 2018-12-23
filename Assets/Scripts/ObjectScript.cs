@@ -6,6 +6,8 @@ using UnityEngine;
 public class ObjectScript : MonoBehaviour {
 
 
+	public int maxhp;
+
 	public int hp;
 	//Тип выпадаемого объекта
 	public string TypeOfObject;
