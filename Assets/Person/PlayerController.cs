@@ -17,12 +17,14 @@ public class PlayerController : MonoBehaviour {
 	public GameObject HPBar;
 	public GameObject HungerBar;
 	public GameObject ProgressBar;
+	public Camera camera;
 
 	private GameObject MinedObjectRef;
 	private Rigidbody2D rb2D;
 
 	void Start () {
 		rb2D = GetComponent<Rigidbody2D>();
+		camera = GetComponentsInChildren<Camera> ()[0];
 		ProgressBar.SetActive (false);
         respectText.text = "";
 	}
@@ -79,7 +81,10 @@ public class PlayerController : MonoBehaviour {
     //Метод добычи. 
     void Harvest(GameObject GO)
 	{
-		if (Input.GetKey ("space")) {
+		Vector3 mP = camera.ScreenToWorldPoint(Input.mousePosition);
+		Vector3 goP = GO.transform.position;
+		if(Mathf.Abs(mP.x - goP.x) <= 0.1 && Mathf.Abs(mP.y - goP.y) <= 0.1 && Input.GetMouseButton(0))
+		{
 			ProgressBar.SetActive (true);
 			GO.GetComponent<ObjectScript> ().Hit (gameObject);
 			ProgressBar.GetComponent<Slider> ().value = 100.0f - ((float)GO.GetComponent<ObjectScript> ().hp / GO.GetComponent<ObjectScript> ().maxhp) * 100.0f;
