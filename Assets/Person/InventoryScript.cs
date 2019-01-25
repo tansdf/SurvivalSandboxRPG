@@ -19,7 +19,9 @@ public class InventoryScript : MonoBehaviour {
 		}
 	}
 		
+	private Item NullItem;
 	public List<Item> InventoryList = new List<Item>();
+	public Item[] SlotList = new Item[8];
 	public List<GameObject> ItemBarSlots = new List<GameObject>();
 	public GameObject ItemBar;
 	public int SelectedIndex = -1;
@@ -28,7 +30,8 @@ public class InventoryScript : MonoBehaviour {
 
 	void Start()
 	{
-		//SetItemSlot (new Item ("Stone", 12), 1);
+		NullItem = new Item ("Null", 0);
+		InitItemBar ();
 	}
 
 	void Update()
@@ -48,25 +51,34 @@ public class InventoryScript : MonoBehaviour {
 			//Так как элементы списка нельзя изменять, их можно только заменять или считывать
 			int indElement = InventoryList.IndexOf(InventoryList.Find (x => x.name == _name));
 			InventoryList[indElement] = new Item (_name, InventoryList[indElement].amount + _amount);
-			SetItemSlot (InventoryList [indElement], indElement);
+
+			//SetItemSlot (InventoryList [indElement], indElement);
+			AddToItemBar(InventoryList[indElement]);
 		} else 
 		{
 			this.InventoryList.Add (new Item (_name, _amount));
-			if(InventoryList.Count <= 8)
-				SetItemSlot (InventoryList.FindLast(x => x.name != null), InventoryList.FindLastIndex(x => x.name != null));
+			int indSlot = FindFreeSlot ();
+			if (InventoryList.Count <= 8 && indSlot < 8)
+			{// Нужно переделать условие, но оно будет работать пока всего в игре не больше восьми предметов
+				
+				//SetItemSlot (InventoryList.FindLast (x => x.name != null), indSlot);
+				AddToItemBar(new Item(_name, _amount));
+			}
 		}
 	}
 
 	public void DeleteFromInventory(string _name, int _amount)
 	{
 		if (InventoryList.Find (x => x.name == _name).amount <= _amount) {
-			SetItemSlot (new Item ("Null", 0), InventoryList.FindIndex (x => x.name == _name));
+			//SetItemSlot (new Item ("Null", 0), InventoryList.FindIndex (x => x.name == _name));
+			DeleteFromItemBar(new Item(_name, _amount));
 			InventoryList.RemoveAll (x => x.name == _name);
 		} else if (InventoryList.Find (x => x.name == _name).amount > _amount) 
 		{
 			int indElement = InventoryList.FindIndex(x => x.name == _name);
 			InventoryList[indElement] = new Item (_name, InventoryList[indElement].amount - _amount);
-			SetItemSlot (InventoryList [indElement], indElement);
+			DeleteFromItemBar(new Item(_name, _amount));
+			//SetItemSlot (InventoryList [indElement], indElement);
 		}
 	}
 
@@ -75,8 +87,76 @@ public class InventoryScript : MonoBehaviour {
 		ItemBarSlots [index].GetComponentsInChildren<Image> ()[1].sprite = ItemBar.GetComponent<GUIItemBar> ().getSprite (item.name);
 		if(item.amount != 0)ItemBarSlots [index].GetComponentsInChildren<Text> () [0].text = item.amount.ToString ();
 		else ItemBarSlots [index].GetComponentsInChildren<Text> () [0].text = "";
+		SlotList [index] = item;
 	}
 
+	private void InitItemBar()
+	{
+		for (int i = 0; i < ItemBarSlots.Count; i++) 
+		{
+			SlotList[i] = NullItem;
+		}
+	}
+
+	private void AddToItemBar(Item item)
+	{
+		bool ItemInBar = false;
+		int slotInd = 0;;
+		for (int i = 0; i < SlotList.Length; i++) 
+		{
+			if (SlotList [i].name.Equals(item.name)) 
+			{
+				ItemInBar = true;
+				slotInd = i;
+			}
+		}
+		if (ItemInBar) {
+			SetItemSlot (item, slotInd);
+		} else
+		{
+			slotInd = FindFreeSlot ();
+			if (slotInd < SlotList.Length) {
+				SetItemSlot (item, slotInd);
+			}
+		}
+	}
+
+	private void DeleteFromItemBar(Item item)
+	{
+		int slotInd = 0;
+		for(int i = 0; i < SlotList.Length; i++)
+		{
+			if (SlotList [i].name.Equals (item.name)) 
+			{
+				slotInd = i;
+			}
+		}
+		if (SlotList [slotInd].amount <= item.amount) 
+		{
+			SetItemSlot (NullItem, slotInd);
+		}
+		else
+		{
+			SetItemSlot (new Item (item.name, SlotList[slotInd].amount - item.amount), slotInd);
+		}
+	}
+
+	//Метод для нахождения индекса свободного слота
+	private int FindFreeSlot()
+	{
+		int i = 0;
+		while (SlotList[i].name != "Null") 
+		{
+			i++;
+		}
+		return i;
+	}
+
+	private int FindExistSlot(Item item)
+	{
+		return 0;
+	}
+	
 	private void SetSelectedItem(float scrollDir)
 	{
 		if (scrollDir < 0)
@@ -90,7 +170,7 @@ public class InventoryScript : MonoBehaviour {
 		if (SelectedIndex != -1) 
 		{
 			ItemBarSlots [SelectedIndex].transform.localScale = new Vector2 (1.15f, 1.15f);
-			if(InventoryList.Count > SelectedIndex) SelectedTextUI.GetComponent<Text>().text = InventoryList [SelectedIndex].name;
+			if(InventoryList.Count > SelectedIndex) SelectedTextUI.GetComponent<Text>().text = SlotList [SelectedIndex].name;
 			ItemBarSlots [LastSelected].transform.localScale = new Vector2 (1.0f, 1.0f);
 			LastSelected = SelectedIndex;
 		}else

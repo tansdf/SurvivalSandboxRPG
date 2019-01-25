@@ -118,12 +118,12 @@ public class PlayerController : MonoBehaviour {
 		//Debug.Log (selind + "  " + InvScript.InventoryList.Count);
 		if (selind != -1 && InvScript.InventoryList.Count > selind) 
 		{
-			if (InvScript.InventoryList [selind].name == "Apple") 
+			if (InvScript.SlotList [selind].name == "Apple") 
 			{
 				satiety += 50.0f;
 				if (satiety > 100)
 					satiety = 100.0f;
-				InvScript.DeleteFromInventory (InvScript.InventoryList [selind].name, 1);
+				InvScript.DeleteFromInventory ("Apple", 1);
 			}
 		}
 	}
