@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour {
 	{
 		Vector3 mP = camera.ScreenToWorldPoint(Input.mousePosition);
 		Vector3 goP = GO.transform.position;
-		if(Mathf.Abs(mP.x - goP.x) <= 0.1 && Mathf.Abs(mP.y - goP.y) <= 0.1 && Input.GetMouseButton(0))
+		if(Mathf.Abs(mP.x - goP.x) <= 0.18 && Mathf.Abs(mP.y - goP.y + 0.5f) <= 0.25 && Input.GetMouseButton(1))
 		{
 			ProgressBar.SetActive (true);
 			GO.GetComponent<ObjectScript> ().Hit (gameObject);
