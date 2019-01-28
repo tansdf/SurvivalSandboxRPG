@@ -83,7 +83,21 @@ public class PlayerController : MonoBehaviour {
 	{
 		Vector3 mP = camera.ScreenToWorldPoint(Input.mousePosition);
 		Vector3 goP = GO.transform.position;
-		if(Mathf.Abs(mP.x - goP.x) <= 0.18 && Mathf.Abs(mP.y - goP.y + 0.5f) <= 0.25 && Input.GetMouseButton(1))
+		float xDelta, yDelta, colR;
+		try{
+			Vector2 colV = GO.GetComponent<CircleCollider2D>().offset;
+			colR = GO.GetComponent<CircleCollider2D>().radius;
+			xDelta = Mathf.Abs(mP.x - goP.x - colV.x);
+			yDelta = Mathf.Abs(mP.y - goP.y - colV.y);
+		}catch(MissingComponentException ex) 
+		{
+			Debug.Log (ex.Message);
+			xDelta = Mathf.Abs (mP.x - goP.x);
+			yDelta = Mathf.Abs (mP.x - goP.x);
+			colR = 0.2f;
+		}
+		Debug.Log (xDelta + "    " + yDelta + "    " + colR);
+		if(xDelta <= colR && yDelta <= colR && Input.GetMouseButton(1))
 		{
 			ProgressBar.SetActive (true);
 			GO.GetComponent<ObjectScript> ().Hit (gameObject);
