@@ -68,6 +68,11 @@ public class PlayerController : MonoBehaviour {
                 respectText.text = "You paid Respect";
             }
         }
+
+		if (coll.gameObject.tag.Equals ("Mob")) 
+		{
+			Attack (coll.gameObject);
+		}
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -91,12 +96,10 @@ public class PlayerController : MonoBehaviour {
 			yDelta = Mathf.Abs(mP.y - goP.y - colV.y);
 		}catch(MissingComponentException ex) 
 		{
-			Debug.Log (ex.Message);
 			xDelta = Mathf.Abs (mP.x - goP.x);
 			yDelta = Mathf.Abs (mP.x - goP.x);
 			colR = 0.2f;
 		}
-		Debug.Log (xDelta + "    " + yDelta + "    " + colR);
 		if(xDelta <= colR && yDelta <= colR && Input.GetMouseButton(1))
 		{
 			ProgressBar.SetActive (true);
@@ -139,6 +142,17 @@ public class PlayerController : MonoBehaviour {
 					satiety = 100.0f;
 				InvScript.DeleteFromInventory ("Apple", 1);
 			}
+		}
+	}
+
+	void Attack(GameObject Enemy)
+	{
+		Vector3 mP = camera.ScreenToWorldPoint(Input.mousePosition);
+		Vector3 EnemyP = Enemy.transform.position;
+		if (Mathf.Abs (mP.x - EnemyP.x) <= 0.5 && Mathf.Abs (mP.y - EnemyP.y) <= 0.5 && Input.GetMouseButtonDown (0)) 
+		{
+			Debug.Log (Enemy.GetComponent<OpponentController> ().Hp);
+			Enemy.GetComponent<OpponentController> ().Hit (10);
 		}
 	}
 }
