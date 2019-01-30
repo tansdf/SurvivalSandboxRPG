@@ -6,7 +6,6 @@ TagManager:
   tags:
   - MinedObjects
   - GraveForRespect
-  - Mob
   layers:
   - Default
   - TransparentFX
