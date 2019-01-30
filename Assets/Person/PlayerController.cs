@@ -13,12 +13,15 @@ public class PlayerController : MonoBehaviour {
 	//Сытость
 	public float satiety = 100.0f;
 
+	float xMove;
+	float yMove;
+
     public Text respectText;
 	public GameObject HPBar;
 	public GameObject HungerBar;
 	public GameObject ProgressBar;
 	public Camera camera;
-
+	public Animator anim;
 	private GameObject MinedObjectRef;
 	private Rigidbody2D rb2D;
 
@@ -27,14 +30,19 @@ public class PlayerController : MonoBehaviour {
 		camera = GetComponentsInChildren<Camera> ()[0];
 		ProgressBar.SetActive (false);
         respectText.text = "";
+		anim = gameObject.GetComponent<Animator> ();;
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		float xMove = Input.GetAxis("Horizontal");
-		float yMove = Input.GetAxis("Vertical");
+		xMove = Input.GetAxis("Horizontal");
+		yMove = Input.GetAxis("Vertical");
+		Debug.Log (xMove + "    " + yMove);
 		transform.Translate(xMove * speed * Time.deltaTime, yMove * speed * Time.deltaTime, 0);
+
 		//rb2D.AddForce(new Vector2(xMove, yMove) * speed * Time.deltaTime);
+		anim.SetFloat ("xMove", xMove);
+		anim.SetFloat ("yMove", yMove);
 	}
 
 	void Update()
@@ -50,6 +58,8 @@ public class PlayerController : MonoBehaviour {
 			Hit (1);
 		if (Input.GetKeyUp ("e"))
 			Use();
+
+
 	}
 
 	//Когда в триггер персонажа (область рядом с ним) попадает какой то объект
