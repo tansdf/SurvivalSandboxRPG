@@ -13,12 +13,15 @@ public class PlayerController : MonoBehaviour {
 	//Сытость
 	public float satiety = 100.0f;
 
+	float xMove;
+	float yMove;
+
     public Text respectText;
 	public GameObject HPBar;
 	public GameObject HungerBar;
 	public GameObject ProgressBar;
 	public Camera camera;
-
+	public Animator anim;
 	private GameObject MinedObjectRef;
 	private Rigidbody2D rb2D;
 
@@ -27,14 +30,19 @@ public class PlayerController : MonoBehaviour {
 		camera = GetComponentsInChildren<Camera> ()[0];
 		ProgressBar.SetActive (false);
         respectText.text = "";
+		anim = gameObject.GetComponent<Animator> ();;
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		float xMove = Input.GetAxis("Horizontal");
-		float yMove = Input.GetAxis("Vertical");
+		xMove = Input.GetAxis("Horizontal");
+		yMove = Input.GetAxis("Vertical");
+		Debug.Log (xMove + "    " + yMove);
 		transform.Translate(xMove * speed * Time.deltaTime, yMove * speed * Time.deltaTime, 0);
+
 		//rb2D.AddForce(new Vector2(xMove, yMove) * speed * Time.deltaTime);
+		anim.SetFloat ("xMove", xMove);
+		anim.SetFloat ("yMove", yMove);
 	}
 
 	void Update()
@@ -50,6 +58,8 @@ public class PlayerController : MonoBehaviour {
 			Hit (1);
 		if (Input.GetKeyUp ("e"))
 			Use();
+
+
 	}
 
 	//Когда в триггер персонажа (область рядом с ним) попадает какой то объект
@@ -68,6 +78,11 @@ public class PlayerController : MonoBehaviour {
                 respectText.text = "You paid Respect";
             }
         }
+
+		if (coll.gameObject.tag.Equals ("Mob")) 
+		{
+			Attack (coll.gameObject);
+		}
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -83,7 +98,19 @@ public class PlayerController : MonoBehaviour {
 	{
 		Vector3 mP = camera.ScreenToWorldPoint(Input.mousePosition);
 		Vector3 goP = GO.transform.position;
-		if(Mathf.Abs(mP.x - goP.x) <= 0.1 && Mathf.Abs(mP.y - goP.y) <= 0.1 && Input.GetMouseButton(0))
+		float xDelta, yDelta, colR;
+		try{
+			Vector2 colV = GO.GetComponent<CircleCollider2D>().offset;
+			colR = GO.GetComponent<CircleCollider2D>().radius;
+			xDelta = Mathf.Abs(mP.x - goP.x - colV.x);
+			yDelta = Mathf.Abs(mP.y - goP.y - colV.y);
+		}catch(MissingComponentException ex) 
+		{
+			xDelta = Mathf.Abs (mP.x - goP.x);
+			yDelta = Mathf.Abs (mP.x - goP.x);
+			colR = 0.2f;
+		}
+		if(xDelta <= colR && yDelta <= colR && Input.GetMouseButton(1))
 		{
 			ProgressBar.SetActive (true);
 			GO.GetComponent<ObjectScript> ().Hit (gameObject);
@@ -125,6 +152,17 @@ public class PlayerController : MonoBehaviour {
 					satiety = 100.0f;
 				InvScript.DeleteFromInventory ("Apple", 1);
 			}
+		}
+	}
+
+	void Attack(GameObject Enemy)
+	{
+		Vector3 mP = camera.ScreenToWorldPoint(Input.mousePosition);
+		Vector3 EnemyP = Enemy.transform.position;
+		if (Mathf.Abs (mP.x - EnemyP.x) <= 0.5 && Mathf.Abs (mP.y - EnemyP.y) <= 0.5 && Input.GetMouseButtonDown (0)) 
+		{
+			Debug.Log (Enemy.GetComponent<OpponentController> ().Hp);
+			Enemy.GetComponent<OpponentController> ().Hit (10);
 		}
 	}
 }
