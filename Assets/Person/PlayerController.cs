@@ -25,7 +25,11 @@ public class PlayerController : MonoBehaviour {
 	private GameObject MinedObjectRef;
 	private Rigidbody2D rb2D;
 
-	void Start () {
+    public Transform swipeParticle;
+    public Transform parentForAttackAnim;
+
+
+    void Start () {
 		rb2D = GetComponent<Rigidbody2D>();
 		camera = GetComponentsInChildren<Camera> ()[0];
 		ProgressBar.SetActive (false);
@@ -58,9 +62,14 @@ public class PlayerController : MonoBehaviour {
 			Hit (1);
 		if (Input.GetKeyUp ("e"))
 			Use();
+        if (Input.GetMouseButtonDown(0))
+        {
+            Attack();
+        }
 
 
-	}
+
+    }
 
 	//Когда в триггер персонажа (область рядом с ним) попадает какой то объект
 	void OnTriggerStay2D(Collider2D coll)
@@ -133,10 +142,10 @@ public class PlayerController : MonoBehaviour {
 	{
 		if(hp >= 0)
 			hp = hp - Time.deltaTime * 5;
-		/*if(hp <= 0)
+        /*if(hp <= 0)
 		{
-		//Он помирает	
-		}*/
+		//Он помирает F
+		}*/        
 	}
 	void Use()
 	{
@@ -160,9 +169,27 @@ public class PlayerController : MonoBehaviour {
 		Vector3 mP = camera.ScreenToWorldPoint(Input.mousePosition);
 		Vector3 EnemyP = Enemy.transform.position;
 		if (Mathf.Abs (mP.x - EnemyP.x) <= 0.5 && Mathf.Abs (mP.y - EnemyP.y) <= 0.5 && Input.GetMouseButtonDown (0)) 
-		{
-			Debug.Log (Enemy.GetComponent<OpponentController> ().Hp);
+		{            
+            Debug.Log (Enemy.GetComponent<OpponentController> ().Hp);
 			Enemy.GetComponent<OpponentController> ().Hit (10);
-		}
-	}
+        }       
+    }
+
+    void Attack()
+    {
+        Vector3 mP = camera.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 mPonScreen = Input.mousePosition;
+
+        Vector3 playerPosition = gameObject.transform.position;
+        Vector3 playerOnScreenPos = camera.WorldToScreenPoint(gameObject.transform.position);
+        mPonScreen.x = mPonScreen.x - playerOnScreenPos.x;
+        mPonScreen.y = mPonScreen.y - playerOnScreenPos.y;
+
+        var heading = - playerOnScreenPos + mPonScreen;
+        var distance = heading.magnitude;
+        var direction = heading / distance;
+        var k = 0;
+
+        Instantiate(swipeParticle, new Vector3(gameObject.transform.position.x+(k*direction.x), gameObject.transform.position.y+(k*direction.y), gameObject.transform.position.z), Quaternion.FromToRotation(playerOnScreenPos,mPonScreen), parentForAttackAnim);
+    }
 }

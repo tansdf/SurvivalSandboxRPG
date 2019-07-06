@@ -63,6 +63,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -107,6 +108,9 @@ MonoBehaviour:
   ProgressBar: {fileID: 0}
   camera: {fileID: 0}
   anim: {fileID: 0}
+  swipeParticle: {fileID: 7322298494074964656, guid: 24017532202333443bed352e3bac3a24,
+    type: 3}
+  parentForAttackAnim: {fileID: 0}
 --- !u!50 &50729241763988498
 Rigidbody2D:
   serializedVersion: 4
@@ -267,9 +271,10 @@ Camera:
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_GateFitMode: 2
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
