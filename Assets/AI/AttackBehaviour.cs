@@ -8,7 +8,6 @@ public class AttackBehaviour : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         GameObject.FindGameObjectWithTag("Player").SendMessage("ApplyDamage", 30.0f);
-       //Debug.Log("Attack");
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
