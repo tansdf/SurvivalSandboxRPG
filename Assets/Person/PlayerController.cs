@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour {
 	void FixedUpdate () {
 		xMove = Input.GetAxis("Horizontal");
 		yMove = Input.GetAxis("Vertical");
-		Debug.Log (xMove + "    " + yMove);
+		//Debug.Log (xMove + "    " + yMove);
 		transform.Translate(xMove * speed * Time.deltaTime, yMove * speed * Time.deltaTime, 0);
 
 		//rb2D.AddForce(new Vector2(xMove, yMove) * speed * Time.deltaTime);
@@ -163,6 +163,17 @@ public class PlayerController : MonoBehaviour {
 		{
 			Debug.Log (Enemy.GetComponent<OpponentController> ().Hp);
 			Enemy.GetComponent<OpponentController> ().Hit (10);
+		}
+	}
+	void ApplyDamage(float damage)
+	{
+		if(hp-damage>0)
+		{
+			hp-=damage;
+		}
+		else
+		{
+			hp=0;
 		}
 	}
 }
