@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 4991228446242452}
   - component: {fileID: 212390329574374192}
   - component: {fileID: 114161492407886528}
-  - component: {fileID: 379995865144061584}
   - component: {fileID: 50729241763988498}
   - component: {fileID: 61617821066139204}
   - component: {fileID: 61972791082302768}
   - component: {fileID: 1608961825}
+  - component: {fileID: 6302465357389533379}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -108,9 +108,10 @@ MonoBehaviour:
   ProgressBar: {fileID: 0}
   camera: {fileID: 0}
   anim: {fileID: 0}
+  inventoryController: {fileID: 0}
   swipeParticle: {fileID: 7322298494074964656, guid: 24017532202333443bed352e3bac3a24,
     type: 3}
-  parentForAttackAnim: {fileID: 0}
+  parentForAttackAnim: {fileID: 4991228446242452}
 --- !u!50 &50729241763988498
 Rigidbody2D:
   serializedVersion: 4
@@ -203,6 +204,32 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6302465357389533379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268909189828790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07ec04e05fdc63e4cb92ea697e4a4f37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemInMouse: {fileID: 0}
+  itemCountinMouse: 0
+  CopyingSlot: {fileID: 7654505941301722426, guid: 755079375bf500b45b99cec778813fb7,
+    type: 3}
+  ItemBar:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  selectedSlot: {fileID: 0}
 --- !u!1 &1898309156125798
 GameObject:
   m_ObjectHideFlags: 0
