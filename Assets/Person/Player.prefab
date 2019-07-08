@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 4991228446242452}
   - component: {fileID: 212390329574374192}
   - component: {fileID: 114161492407886528}
+  - component: {fileID: 379995865144061584}
   - component: {fileID: 50729241763988498}
   - component: {fileID: 61617821066139204}
   - component: {fileID: 61972791082302768}
-  - component: {fileID: 114161030517189054}
   - component: {fileID: 1608961825}
   m_Layer: 0
   m_Name: Player
@@ -63,6 +63,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -107,6 +108,33 @@ MonoBehaviour:
   ProgressBar: {fileID: 0}
   camera: {fileID: 0}
   anim: {fileID: 0}
+  inventoryController: {fileID: 0}
+--- !u!114 &379995865144061584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268909189828790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07ec04e05fdc63e4cb92ea697e4a4f37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemInMouse: {fileID: 0}
+  itemCountinMouse: 0
+  CopyingSlot: {fileID: 7654505941301722426, guid: 755079375bf500b45b99cec778813fb7,
+    type: 3}
+  ItemBar:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  selectedSlot: {fileID: 0}
 --- !u!50 &50729241763988498
 Rigidbody2D:
   serializedVersion: 4
@@ -180,30 +208,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 26.5, y: 30.5}
   m_EdgeRadius: 0
---- !u!114 &114161030517189054
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1268909189828790}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fff873e9cf474f247a9e4a957812a4dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ItemBarSlots:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  ItemBar: {fileID: 0}
-  SelectedIndex: -1
-  SelectedTextUI: {fileID: 0}
 --- !u!95 &1608961825
 Animator:
   serializedVersion: 3
@@ -267,9 +271,10 @@ Camera:
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_GateFitMode: 2
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2

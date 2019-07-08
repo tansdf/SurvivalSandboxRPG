@@ -95,9 +95,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxhp: 50
   hp: 50
-  TypeOfObject: Wood
+  Drop: {fileID: 11400000, guid: f9ecffe591561dd4ca61cace1023fc5b, type: 2}
   LootAmount: 5
-  TypeOfRandomObject: Apple
+  RandomDrop: {fileID: 11400000, guid: 716ff2805a0387643afcd4cc18a81c93, type: 2}
   MaxLootAmount: 1
 --- !u!58 &58738187244411940
 CircleCollider2D:
