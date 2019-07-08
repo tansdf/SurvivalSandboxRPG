@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class InventoryScript : MonoBehaviour {
 
-	//Очень очень базовый вариант инвентаря, позже скорее всего будет изменен
-	//Пока что идинтификация элементов по строке, позже быть может сделать по ID
+
 	public struct Item
 	{
 		public int amount { get; set;}

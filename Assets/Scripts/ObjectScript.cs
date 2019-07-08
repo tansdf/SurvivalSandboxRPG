@@ -9,31 +9,29 @@ public class ObjectScript : MonoBehaviour {
 	public int maxhp;
 
 	public int hp;
-	//Тип выпадаемого объекта
-	public string TypeOfObject;
+
+    public ItemData Drop;
 	//Количество выпадаемого объекта
 	public int LootAmount;
-	//Передается ссылка на игровой обьект персонажа
+    //Передается ссылка на игровой обьект персонажа
 
-	//Тип рандомно выпадаемого объекта
-	public string TypeOfRandomObject;
+    //Тип рандомно выпадаемого объекта
+    public ItemData RandomDrop;
 	//Максимальное количество
 	public int MaxLootAmount;
 
-	//Позже, если прям так уж необходимо будет, надо переписать это как-нибудь 
-	//Но пока так сойдет
 
 	public void Hit(GameObject playerGO)
 	{
 		hp--;
 		if (hp <= 0) 
 		{
-			playerGO.GetComponent<InventoryScript> ().AddToInventory (TypeOfObject, LootAmount);
+			playerGO.GetComponent<PlayerController>().inventoryController.AddToInventory (Drop, LootAmount);
 			System.Random rand = new System.Random();
 			int x = rand.Next (0, MaxLootAmount + 1);
 			if (x > 0) 
 			{
-				playerGO.GetComponent<InventoryScript> ().AddToInventory (TypeOfRandomObject, x);
+				playerGO.GetComponent<PlayerController>().inventoryController.AddToInventory (RandomDrop, x);
 			}
 			Destroy (gameObject);
 		}

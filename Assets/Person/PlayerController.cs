@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour {
 	public GameObject ProgressBar;
 	public Camera camera;
 	public Animator anim;
+    public InventoryController inventoryController;
 	private GameObject MinedObjectRef;
 	private Rigidbody2D rb2D;
 
@@ -41,7 +42,7 @@ public class PlayerController : MonoBehaviour {
 	void FixedUpdate () {
 		xMove = Input.GetAxis("Horizontal");
 		yMove = Input.GetAxis("Vertical");
-		Debug.Log (xMove + "    " + yMove);
+		//Debug.Log (xMove + "    " + yMove);
 		transform.Translate(xMove * speed * Time.deltaTime, yMove * speed * Time.deltaTime, 0);
 
 		//rb2D.AddForce(new Vector2(xMove, yMove) * speed * Time.deltaTime);
@@ -67,6 +68,11 @@ public class PlayerController : MonoBehaviour {
             Attack();
         }
 
+        if(Input.GetKeyDown("i"))
+        {
+            if (inventoryController.gameObject.activeInHierarchy) inventoryController.gameObject.SetActive(false);
+            else inventoryController.gameObject.SetActive(true);
+        }
 
 
     }

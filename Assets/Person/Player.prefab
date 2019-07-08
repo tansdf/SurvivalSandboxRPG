@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 4991228446242452}
   - component: {fileID: 212390329574374192}
   - component: {fileID: 114161492407886528}
+  - component: {fileID: 379995865144061584}
   - component: {fileID: 50729241763988498}
   - component: {fileID: 61617821066139204}
   - component: {fileID: 61972791082302768}
-  - component: {fileID: 114161030517189054}
   - component: {fileID: 1608961825}
   m_Layer: 0
   m_Name: Player
@@ -184,30 +184,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 26.5, y: 30.5}
   m_EdgeRadius: 0
---- !u!114 &114161030517189054
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1268909189828790}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fff873e9cf474f247a9e4a957812a4dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ItemBarSlots:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  ItemBar: {fileID: 0}
-  SelectedIndex: -1
-  SelectedTextUI: {fileID: 0}
 --- !u!95 &1608961825
 Animator:
   serializedVersion: 3
