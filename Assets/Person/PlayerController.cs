@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour {
 		camera = GetComponentsInChildren<Camera> ()[0];
 		ProgressBar.SetActive (false);
         respectText.text = "";
-		anim = gameObject.GetComponent<Animator> ();;
+		anim = gameObject.GetComponent<Animator> ();
 	}
 	
 	// Update is called once per frame
