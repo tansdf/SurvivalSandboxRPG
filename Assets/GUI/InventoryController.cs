@@ -17,17 +17,15 @@ public class InventoryController : MonoBehaviour
     private SlotComponent[] ItemBar = new SlotComponent[8];
     public SlotComponent selectedSlot;
 
+    //Нужно будет снять галочки, чтобы инвентарь не был открыт сразу
+    public bool isOpen = true;
+
     void Start()
     {
         InitInventory();
     }
 
-    void Update()
-    {
-        if (Input.GetAxis("Mouse ScrollWheel") != 0)
-            SetSelectedSlot(Input.GetAxis("Mouse ScrollWheel"));
-    }
-
+   
     private void InitInventory()
     {
         Canvas.ForceUpdateCanvases();
@@ -177,7 +175,7 @@ public class InventoryController : MonoBehaviour
         }
 	}
 
-    private void SetSelectedSlot(float scrollDir)
+    public void SetSelectedSlot(float scrollDir)
     {
 
         if (scrollDir < 0)
@@ -191,7 +189,7 @@ public class InventoryController : MonoBehaviour
         if (selectedIndex != -1)
         {
             ItemBar[selectedIndex].transform.localScale = new Vector2(1.15f, 1.15f);
-            if (selectedIndex < 8) ItemBar[selectedIndex].GetComponentInChildren<Text>().text = ItemBar[selectedIndex].getItemSlot().name;
+            //if (selectedIndex < 8) ItemBar[selectedIndex].GetComponentInChildren<Text>().text = ItemBar[selectedIndex].getItemSlot().name;
             ItemBar[lastSelected].transform.localScale = new Vector2(1.0f, 1.0f);
             lastSelected = selectedIndex;
         }
@@ -202,6 +200,36 @@ public class InventoryController : MonoBehaviour
     public SlotComponent getSelectedSlot()
     {
         return ItemBar[selectedIndex];
+    }
+    
+    public void HideInventory()
+    {
+        var Images = gameObject.GetComponentsInChildren<Image>();
+        var Buttons = gameObject.GetComponentsInChildren<Button>();
+        foreach(var el in Images)
+        {
+            el.enabled = false;
+        }
+        foreach(var el in Buttons)
+        {
+            el.enabled = false;
+        }
+        isOpen = false;
+    }
+
+    public void OpenInventory()
+    {
+        var Images = gameObject.GetComponentsInChildren<Image>();
+        var Buttons = gameObject.GetComponentsInChildren<Button>();
+        foreach(var el in Images)
+        {
+            el.enabled = true;
+        }
+        foreach(var el in Buttons)
+        {
+            el.enabled = true;
+        }
+        isOpen = true;
     }
 }
 

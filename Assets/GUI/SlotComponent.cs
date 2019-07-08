@@ -38,6 +38,7 @@ public class SlotComponent : MonoBehaviour, IPointerClickHandler
 	{
 		itemCount = count;
 		gameObject.GetComponentInChildren<Text> ().text = count.ToString ();
+		if(count == 0) clearItemSlot();
 	}
 
 	public void clearItemSlot()
