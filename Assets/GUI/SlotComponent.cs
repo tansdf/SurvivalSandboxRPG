@@ -12,7 +12,7 @@ public class SlotComponent : MonoBehaviour, IPointerClickHandler
 	private ItemData itemInSlot;
     //Прозрачный спрайт
 	[SerializeField]
-	private Sprite uimask;
+	public Sprite uimask;
 	public int itemCount; 
 
 	public ItemData getItemSlot()
@@ -22,8 +22,64 @@ public class SlotComponent : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData pointerEventData)
     {
-        Debug.Log(pointerEventData.pointerId + " Нажатие");
-        Debug.Log(pointerEventData.button);
+		var inventoryController = GameObject.Find("Inventory").GetComponent<InventoryController>();
+		if(pointerEventData.button.ToString().CompareTo("Left") == 0)
+		{
+			if(itemInSlot != null)
+			{
+				if(inventoryController.itemInMouse == null)
+				{
+					inventoryController.putItemInMouse(itemInSlot, itemCount);
+					clearItemSlot();
+				}
+				else if(inventoryController.itemInMouse == itemInSlot)
+				{
+					if(inventoryController.itemCountInMouse + itemCount <= itemInSlot.maxStackSize)
+					{
+						setItemCount(inventoryController.itemCountInMouse + itemCount);
+						inventoryController.clearItemInMouse();
+					}
+					else
+					{
+						inventoryController.putItemInMouse(itemInSlot, inventoryController.itemCountInMouse - (itemInSlot.maxStackSize - itemCount));
+						setItemCount(itemInSlot.maxStackSize);
+					}
+				}
+			}
+			else 
+			{
+				if(inventoryController.itemInMouse != null)
+				{
+					setItemSlot(inventoryController.itemInMouse, inventoryController.itemCountInMouse);
+					inventoryController.clearItemInMouse();
+				}
+			}
+		}
+		else if(pointerEventData.button.ToString().CompareTo("Right") == 0)
+		{
+			if(itemInSlot != null)
+			{
+				if(inventoryController.itemInMouse == null)
+				{
+					inventoryController.putItemInMouse(itemInSlot, 1);
+					setItemCount(itemCount - 1);
+				}
+				else if(inventoryController.itemInMouse == itemInSlot && inventoryController.itemCountInMouse <= itemInSlot.maxStackSize)
+				{
+					inventoryController.putItemInMouse(itemInSlot, inventoryController.itemCountInMouse + 1);
+					setItemCount(itemCount - 1);
+				}
+			}
+			else 
+			{
+				if(inventoryController.itemInMouse != null)
+				{
+					setItemSlot(inventoryController.itemInMouse, 1);
+					if(inventoryController.itemCountInMouse > 1) inventoryController.putItemInMouse(inventoryController.itemInMouse, inventoryController.itemCountInMouse - 1);
+					else inventoryController.clearItemInMouse();
+				}
+			}
+		}
     }
     
 	public void setItemSlot(ItemData item, int count)

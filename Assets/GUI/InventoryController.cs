@@ -7,8 +7,9 @@ using UnityEngine.UI;
 public class InventoryController : MonoBehaviour
 {
     public ItemData itemInMouse;
-    public int itemCountinMouse;
+    public int itemCountInMouse;
     public GameObject CopyingSlot;
+    public GameObject MouseSlot;
     private int selectedIndex = -1;
     private int lastSelected = 0;
 
@@ -25,12 +26,16 @@ public class InventoryController : MonoBehaviour
         InitInventory();
     }
 
+    private void Update() {
+        MouseSlot.transform.position = Input.mousePosition + new Vector3(20, -20, 0);
+    }
    
     private void InitInventory()
     {
         Canvas.ForceUpdateCanvases();
         float size = 33.625f; 
         GameObject ItemsPanel = gameObject.transform.GetChild(0).gameObject; 
+        MouseSlot = GameObject.Find("MouseSlot");
         for(int i = 0; i < 8; i++)
         {
             for(int j = 0; j < 8; j++)
@@ -204,7 +209,7 @@ public class InventoryController : MonoBehaviour
     
     public void HideInventory()
     {
-        var Images = gameObject.GetComponentsInChildren<Image>();
+        /*var Images = gameObject.GetComponentsInChildren<Image>();
         var Buttons = gameObject.GetComponentsInChildren<Button>();
         foreach(var el in Images)
         {
@@ -214,12 +219,14 @@ public class InventoryController : MonoBehaviour
         {
             el.enabled = false;
         }
+        isOpen = false;*/
+        gameObject.GetComponent<RectTransform>().Translate(5000, 0, 0);
         isOpen = false;
     }
 
     public void OpenInventory()
     {
-        var Images = gameObject.GetComponentsInChildren<Image>();
+        /*var Images = gameObject.GetComponentsInChildren<Image>();
         var Buttons = gameObject.GetComponentsInChildren<Button>();
         foreach(var el in Images)
         {
@@ -230,6 +237,25 @@ public class InventoryController : MonoBehaviour
             el.enabled = true;
         }
         isOpen = true;
+        */
+        gameObject.GetComponent<RectTransform>().Translate(-5000, 0, 0);
+        isOpen = true;
+    }
+
+    public void putItemInMouse(ItemData item, int count)
+    {
+        itemInMouse = item;
+        itemCountInMouse = count;
+        MouseSlot.GetComponent<Image>().sprite = item.icon;
+        MouseSlot.GetComponentInChildren<Text>().text = count.ToString();
+    }
+
+    public void clearItemInMouse()
+    {
+        itemInMouse = null;
+        itemCountInMouse = 0;
+        MouseSlot.GetComponent<Image>().sprite = SlotArray[0,0].uimask;
+        MouseSlot.GetComponentInChildren<Text>().text = ""; 
     }
 }
 
