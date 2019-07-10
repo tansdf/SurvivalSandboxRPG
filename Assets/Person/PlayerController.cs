@@ -40,14 +40,20 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		xMove = Input.GetAxis("Horizontal");
-		yMove = Input.GetAxis("Vertical");
+		Vector2 moveDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 		//Debug.Log (xMove + "    " + yMove);
-		transform.Translate(xMove * speed * Time.deltaTime, yMove * speed * Time.deltaTime, 0);
+		if(moveDirection.magnitude != 0)
+		{
+			anim.SetFloat ("xMove", moveDirection.x);
+			anim.SetFloat ("yMove", moveDirection.y);
+			anim.SetBool("isRunning", true);
+		}
+		else
+		{
+			anim.SetBool("isRunning", false);
+		}
 
-		//rb2D.AddForce(new Vector2(xMove, yMove) * speed * Time.deltaTime);
-		anim.SetFloat ("xMove", xMove);
-		anim.SetFloat ("yMove", yMove);
+		transform.position += (Vector3)moveDirection.normalized*Time.deltaTime;
 	}
 
 	void Update()
