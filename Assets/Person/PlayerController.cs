@@ -133,7 +133,6 @@ public class PlayerController : MonoBehaviour {
 			hits = Physics2D.RaycastAll(new Vector3(mP.x, mP.y, 1), new Vector3(0, 0, -1));
 			foreach(var hit in hits)
 			{
-				Debug.Log(hit.transform.gameObject.name);
 				if(hit.transform.gameObject!=gameObject)
 				{
 					hit.transform.gameObject.SendMessage("ApplyDamage", 30.0f, SendMessageOptions.DontRequireReceiver);

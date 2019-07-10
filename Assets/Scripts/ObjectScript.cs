@@ -39,14 +39,15 @@ public class ObjectScript : MonoBehaviour {
 			{
 				playerGO.GetComponent<PlayerController>().inventoryController.AddToInventory (RandomDrop, x);
 			}
+			
+			Destroy (gameObject);
+			ProgressBar.SetActive (false);
 			System.Random enemyRand = new System.Random();
                 int entSpawnRand = rand.Next(0, 100);
                 if (entSpawnRand>85)
                 {
                     Instantiate(entForSpawn, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z),Quaternion.identity);
                 }
-			Destroy (gameObject);
-			ProgressBar.SetActive (false);
 		}
 		else
 		{

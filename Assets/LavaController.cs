@@ -18,7 +18,6 @@ public class LavaController : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D coll)
 	{
-        Debug.Log("InLava");
         coll.gameObject.SendMessage("ApplyDamage", 10*Time.deltaTime);
     }
 }
