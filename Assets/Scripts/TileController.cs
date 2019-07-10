@@ -55,6 +55,9 @@ public class TileController : MonoBehaviour
 		}
 		else
 		{
+            var shape = GetComponent<ParticleSystem>().shape;
+            shape.position = mP;
+            GetComponent<ParticleSystem>().Emit(30);
 			ProgressBar.SetActive (true);
 			ProgressBar.GetComponent<Slider>().value = ((float)tileHp[pPos]/maxhp) * 100.0f;
 			ColorBlock cb = ProgressBar.GetComponent<Slider> ().colors;

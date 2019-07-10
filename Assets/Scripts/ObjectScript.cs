@@ -51,6 +51,7 @@ public class ObjectScript : MonoBehaviour {
 		}
 		else
 		{
+			GetComponent<ParticleSystem>().Emit(30);
 			ProgressBar.SetActive (true);
 			ProgressBar.GetComponent<Slider>().value = ((float)hp/maxhp) * 100.0f;
 			ColorBlock cb = ProgressBar.GetComponent<Slider> ().colors;
