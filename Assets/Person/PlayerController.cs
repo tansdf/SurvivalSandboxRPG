@@ -173,15 +173,4 @@ public class PlayerController : MonoBehaviour {
 			hp=0;
 		}
 	}
-	void ApplyDamage(float damage)
-	{
-		if(hp-damage>0)
-		{
-			hp-=damage;
-		}
-		else
-		{
-			hp=0;
-		}
-	}
 }

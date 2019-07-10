@@ -98,12 +98,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ProgressBar: {fileID: 0}
   maxhp: 5
-  hp: 5
   Drop: {fileID: 11400000, guid: f9ecffe591561dd4ca61cace1023fc5b, type: 2}
   LootAmount: 5
   RandomDrop: {fileID: 11400000, guid: 716ff2805a0387643afcd4cc18a81c93, type: 2}
   MaxLootAmount: 1
-  entForSpawn: {fileID: 4312256785357826764, guid: 23ab05521b7153b4cba6bf81019af679,
+  entForSpawn: {fileID: 2221317142243122651, guid: 65dcd658ea9065a4491c475a0e8f5922,
     type: 3}
 --- !u!58 &58738187244411940
 CircleCollider2D:

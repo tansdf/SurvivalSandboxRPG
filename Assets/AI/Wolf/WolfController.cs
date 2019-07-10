@@ -5,31 +5,27 @@ using UnityEngine;
 public class WolfController : MonoBehaviour
 {
     SpriteRenderer spriteRenderer;
-    Animator animator;
     public float hp;
     // Start is called before the first frame update
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            ApplyDamage(30);
-        }
+        gameObject.GetComponent<SpriteRenderer>().sortingOrder = (int)((gameObject.transform.position.y-gameObject.GetComponent<SpriteRenderer>().bounds.size.y/2)*-100);
     }
 
     void Die()
     {
-        animator.SetTrigger("Die");
+        GetComponent<Animator>().SetTrigger("Die");
     }
 
     void Disappearing()
     {
+        gameObject.GetComponent<CircleCollider2D>().enabled = false;
         StartCoroutine("InvisibleSprite");
     }
 
