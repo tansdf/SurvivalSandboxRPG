@@ -13,9 +13,6 @@ public class PlayerController : MonoBehaviour {
 	//Сытость
 	public float satiety = 100.0f;
 
-	float xMove;
-	float yMove;
-
     public Text respectText;
 	public GameObject HPBar;
 	public GameObject HungerBar;
@@ -40,14 +37,20 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		xMove = Input.GetAxis("Horizontal");
-		yMove = Input.GetAxis("Vertical");
+		Vector2 moveDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 		//Debug.Log (xMove + "    " + yMove);
-		transform.Translate(xMove * speed * Time.deltaTime, yMove * speed * Time.deltaTime, 0);
+		if(moveDirection.magnitude != 0)
+		{
+			anim.SetFloat ("xMove", moveDirection.x);
+			anim.SetFloat ("yMove", moveDirection.y);
+			anim.SetBool("isRunning", true);
+		}
+		else
+		{
+			anim.SetBool("isRunning", false);
+		}
 
-		//rb2D.AddForce(new Vector2(xMove, yMove) * speed * Time.deltaTime);
-		anim.SetFloat ("xMove", xMove);
-		anim.SetFloat ("yMove", yMove);
+		transform.position += (Vector3)moveDirection.normalized*Time.deltaTime*speed;
 	}
 
 	void Update()
@@ -60,12 +63,13 @@ public class PlayerController : MonoBehaviour {
 		if (hp >= 0.0f) 
 			HPBar.GetComponent<Slider> ().value = hp / 100;
 		if (satiety <= 0)
-			Hit (1);
+			ApplyDamage(Time.deltaTime * 5);
 		if (Input.GetKeyUp ("e"))
 			Use();
         if (Input.GetMouseButtonDown(0))
         {
-            Attack();
+            DrawAttack();
+			Attack();
         }
 
         if(Input.GetKeyDown("i"))
@@ -74,6 +78,8 @@ public class PlayerController : MonoBehaviour {
             else inventoryController.gameObject.SetActive(true);
         }
 
+		gameObject.GetComponent<SpriteRenderer>().sortingOrder = (int)((gameObject.transform.position.y-gameObject.GetComponent<SpriteRenderer>().bounds.size.y/2)*-100);
+
 
     }
 
@@ -81,10 +87,6 @@ public class PlayerController : MonoBehaviour {
 	void OnTriggerStay2D(Collider2D coll)
 	{
 		//Проверка, какой объект
-		if (coll.gameObject.tag.Equals ("MinedObjects")) 
-		{
-			Harvest (coll.gameObject);
-		}
 
         if (coll.gameObject.tag.Equals("GraveForRespect"))
         {
@@ -93,11 +95,6 @@ public class PlayerController : MonoBehaviour {
                 respectText.text = "You paid Respect";
             }
         }
-
-		if (coll.gameObject.tag.Equals ("Mob")) 
-		{
-			Attack (coll.gameObject);
-		}
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -108,51 +105,6 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    //Метод добычи. 
-    void Harvest(GameObject GO)
-	{
-		Vector3 mP = camera.ScreenToWorldPoint(Input.mousePosition);
-		Vector3 goP = GO.transform.position;
-		float xDelta, yDelta, colR;
-		try{
-			Vector2 colV = GO.GetComponent<CircleCollider2D>().offset;
-			colR = GO.GetComponent<CircleCollider2D>().radius;
-			xDelta = Mathf.Abs(mP.x - goP.x - colV.x);
-			yDelta = Mathf.Abs(mP.y - goP.y - colV.y);
-		}catch(MissingComponentException ex) 
-		{
-			xDelta = Mathf.Abs (mP.x - goP.x);
-			yDelta = Mathf.Abs (mP.x - goP.x);
-			colR = 0.2f;
-		}
-		if(xDelta <= colR && yDelta <= colR && Input.GetMouseButton(1))
-		{
-			ProgressBar.SetActive (true);
-			GO.GetComponent<ObjectScript> ().Hit (gameObject);
-			ProgressBar.GetComponent<Slider> ().value = 100.0f - ((float)GO.GetComponent<ObjectScript> ().hp / GO.GetComponent<ObjectScript> ().maxhp) * 100.0f;
-			if (GO == null)
-				ProgressBar.GetComponent<Slider> ().value = 0.0f;
-			ColorBlock cb = ProgressBar.GetComponent<Slider> ().colors;
-			cb.disabledColor = new Color (0.2f, ProgressBar.GetComponent<Slider> ().value / 100, 0, 1);
-			ProgressBar.GetComponent<Slider> ().colors = cb;
-			if (ProgressBar.GetComponent<Slider> ().value == 100.0f)
-				ProgressBar.SetActive (false);
-		} else 
-		{
-			ProgressBar.SetActive (false);
-		}
-	}
-
-	//Пинок
-	void Hit(int damage)
-	{
-		if(hp >= 0)
-			hp = hp - Time.deltaTime * 5;
-        /*if(hp <= 0)
-		{
-		//Он помирает F
-		}*/        
-	}
 	void Use()
 	{
 		InventoryScript InvScript = this.GetComponent<InventoryScript> ();
@@ -170,18 +122,29 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	void Attack(GameObject Enemy)
+	void Attack()
 	{
-		Vector3 mP = camera.ScreenToWorldPoint(Input.mousePosition);
-		Vector3 EnemyP = Enemy.transform.position;
-		if (Mathf.Abs (mP.x - EnemyP.x) <= 0.5 && Mathf.Abs (mP.y - EnemyP.y) <= 0.5 && Input.GetMouseButtonDown (0)) 
-		{            
-            Debug.Log (Enemy.GetComponent<OpponentController> ().Hp);
-			Enemy.GetComponent<OpponentController> ().Hit (10);
-        }       
+		Vector2 mP = camera.ScreenToWorldPoint(Input.mousePosition);
+ 		RaycastHit2D[] hits;
+		ProgressBar.SetActive (false);
+		
+		if (Vector2.Distance(mP, (Vector2)transform.position) < 1) 
+		{
+			hits = Physics2D.RaycastAll(new Vector3(mP.x, mP.y, 1), new Vector3(0, 0, -1));
+			foreach(var hit in hits)
+			{
+				Debug.Log(hit.transform.gameObject.name);
+				if(hit.transform.gameObject!=gameObject)
+				{
+					hit.transform.gameObject.SendMessage("ApplyDamage", 30.0f, SendMessageOptions.DontRequireReceiver);
+					hit.transform.gameObject.SendMessage("Hit", gameObject, SendMessageOptions.DontRequireReceiver);
+				}
+			}
+		
+		}   
     }
 
-    void Attack()
+    void DrawAttack()
     {
         Vector3 mP = camera.ScreenToWorldPoint(Input.mousePosition);
         Vector3 mPonScreen = Input.mousePosition;
@@ -198,4 +161,16 @@ public class PlayerController : MonoBehaviour {
 
         Instantiate(swipeParticle, new Vector3(gameObject.transform.position.x+(k*direction.x), gameObject.transform.position.y+(k*direction.y), gameObject.transform.position.z), Quaternion.FromToRotation(playerOnScreenPos,mPonScreen), parentForAttackAnim);
     }
+
+	void ApplyDamage(float damage)
+	{
+		if(hp-damage>0)
+		{
+			hp-=damage;
+		}
+		else
+		{
+			hp=0;
+		}
+	}
 }

@@ -58,6 +58,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -93,8 +94,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c3bec13ad4e5af4fbb85caa2ca05b0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxhp: 100
-  hp: 100
+  ProgressBar: {fileID: 0}
+  maxhp: 3
   Drop: {fileID: 11400000, guid: f9fb8eccf0e715e4eb118bd48483c9c4, type: 2}
   LootAmount: 5
   RandomDrop: {fileID: 0}

@@ -96,8 +96,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c3bec13ad4e5af4fbb85caa2ca05b0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxhp: 50
-  hp: 50
+  ProgressBar: {fileID: 0}
+  maxhp: 5
+  hp: 5
   Drop: {fileID: 11400000, guid: f9ecffe591561dd4ca61cace1023fc5b, type: 2}
   LootAmount: 5
   RandomDrop: {fileID: 11400000, guid: 716ff2805a0387643afcd4cc18a81c93, type: 2}

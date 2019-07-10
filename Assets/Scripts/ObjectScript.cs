@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Runtime;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ObjectScript : MonoBehaviour {
 
-
+	public GameObject ProgressBar;
 	public int maxhp;
 
-	public int hp;
+	int hp;
 
     public ItemData Drop;
 	//Количество выпадаемого объекта
@@ -22,8 +23,11 @@ public class ObjectScript : MonoBehaviour {
 
     public Transform entForSpawn;
 
-
-    public void Hit(GameObject playerGO)
+	void Start()
+	{
+		hp = maxhp;
+	}
+	public void Hit(GameObject playerGO)
 	{
 		hp--;
 		if (hp <= 0) 
@@ -41,7 +45,16 @@ public class ObjectScript : MonoBehaviour {
                 {
                     Instantiate(entForSpawn, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z),Quaternion.identity);
                 }
-            Destroy (gameObject);
+			Destroy (gameObject);
+			ProgressBar.SetActive (false);
+		}
+		else
+		{
+			ProgressBar.SetActive (true);
+			ProgressBar.GetComponent<Slider>().value = ((float)hp/maxhp) * 100.0f;
+			ColorBlock cb = ProgressBar.GetComponent<Slider> ().colors;
+			cb.disabledColor = new Color (0.2f, ProgressBar.GetComponent<Slider> ().value / 100, 0, 1);
+			ProgressBar.GetComponent<Slider> ().colors = cb;
 		}
 	}
 }
