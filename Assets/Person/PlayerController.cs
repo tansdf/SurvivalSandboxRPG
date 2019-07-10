@@ -13,9 +13,6 @@ public class PlayerController : MonoBehaviour {
 	//Сытость
 	public float satiety = 100.0f;
 
-	float xMove;
-	float yMove;
-
     public Text respectText;
 	public GameObject HPBar;
 	public GameObject HungerBar;
@@ -53,7 +50,7 @@ public class PlayerController : MonoBehaviour {
 			anim.SetBool("isRunning", false);
 		}
 
-		transform.position += (Vector3)moveDirection.normalized*Time.deltaTime;
+		transform.position += (Vector3)moveDirection.normalized*Time.deltaTime*speed;
 	}
 
 	void Update()
