@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Runtime;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ObjectScript : MonoBehaviour {
 
-
+	public GameObject ProgressBar;
 	public int maxhp;
 
-	public int hp;
+	int hp;
 
     public ItemData Drop;
 	//Количество выпадаемого объекта
@@ -20,7 +21,10 @@ public class ObjectScript : MonoBehaviour {
 	//Максимальное количество
 	public int MaxLootAmount;
 
-
+	void Start()
+	{
+		hp = maxhp;
+	}
 	public void Hit(GameObject playerGO)
 	{
 		hp--;
@@ -34,6 +38,16 @@ public class ObjectScript : MonoBehaviour {
 				playerGO.GetComponent<PlayerController>().inventoryController.AddToInventory (RandomDrop, x);
 			}
 			Destroy (gameObject);
+			ProgressBar.SetActive (false);
+		}
+		else
+		{
+			ProgressBar.SetActive (true);
+			Debug.Log(maxhp);
+			ProgressBar.GetComponent<Slider>().value = ((float)hp/maxhp) * 100.0f;
+			ColorBlock cb = ProgressBar.GetComponent<Slider> ().colors;
+			cb.disabledColor = new Color (0.2f, ProgressBar.GetComponent<Slider> ().value / 100, 0, 1);
+			ProgressBar.GetComponent<Slider> ().colors = cb;
 		}
 	}
 }
