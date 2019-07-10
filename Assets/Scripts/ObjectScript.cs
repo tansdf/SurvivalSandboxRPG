@@ -43,7 +43,6 @@ public class ObjectScript : MonoBehaviour {
 		else
 		{
 			ProgressBar.SetActive (true);
-			Debug.Log(maxhp);
 			ProgressBar.GetComponent<Slider>().value = ((float)hp/maxhp) * 100.0f;
 			ColorBlock cb = ProgressBar.GetComponent<Slider> ().colors;
 			cb.disabledColor = new Color (0.2f, ProgressBar.GetComponent<Slider> ().value / 100, 0, 1);
