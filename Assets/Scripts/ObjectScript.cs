@@ -20,8 +20,10 @@ public class ObjectScript : MonoBehaviour {
 	//Максимальное количество
 	public int MaxLootAmount;
 
+    public Transform entForSpawn;
 
-	public void Hit(GameObject playerGO)
+
+    public void Hit(GameObject playerGO)
 	{
 		hp--;
 		if (hp <= 0) 
@@ -33,7 +35,13 @@ public class ObjectScript : MonoBehaviour {
 			{
 				playerGO.GetComponent<PlayerController>().inventoryController.AddToInventory (RandomDrop, x);
 			}
-			Destroy (gameObject);
+			System.Random enemyRand = new System.Random();
+                int entSpawnRand = rand.Next(0, 100);
+                if (entSpawnRand>85)
+                {
+                    Instantiate(entForSpawn, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z),Quaternion.identity);
+                }
+            Destroy (gameObject);
 		}
 	}
 }

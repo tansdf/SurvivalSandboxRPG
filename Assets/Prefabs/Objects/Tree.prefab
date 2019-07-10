@@ -47,6 +47,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -58,6 +59,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -99,6 +101,8 @@ MonoBehaviour:
   LootAmount: 5
   RandomDrop: {fileID: 11400000, guid: 716ff2805a0387643afcd4cc18a81c93, type: 2}
   MaxLootAmount: 1
+  entForSpawn: {fileID: 4312256785357826764, guid: 23ab05521b7153b4cba6bf81019af679,
+    type: 3}
 --- !u!58 &58738187244411940
 CircleCollider2D:
   m_ObjectHideFlags: 0
