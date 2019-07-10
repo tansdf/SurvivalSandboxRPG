@@ -74,6 +74,8 @@ public class PlayerController : MonoBehaviour {
             else inventoryController.gameObject.SetActive(true);
         }
 
+		gameObject.GetComponent<SpriteRenderer>().sortingOrder = (int)((gameObject.transform.position.y-gameObject.GetComponent<SpriteRenderer>().bounds.size.y/2)*-100);
+
 
     }
 
@@ -83,6 +85,7 @@ public class PlayerController : MonoBehaviour {
 		//Проверка, какой объект
 		if (coll.gameObject.tag.Equals ("MinedObjects")) 
 		{
+			Debug.Log("Mined");
 			Harvest (coll.gameObject);
 		}
 
