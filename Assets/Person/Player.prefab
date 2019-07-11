@@ -51,6 +51,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -111,6 +112,7 @@ MonoBehaviour:
   swipeParticle: {fileID: 7322298494074964656, guid: 24017532202333443bed352e3bac3a24,
     type: 3}
   parentForAttackAnim: {fileID: 4991228446242452}
+  video: {fileID: 0}
 --- !u!50 &50729241763988498
 Rigidbody2D:
   serializedVersion: 4

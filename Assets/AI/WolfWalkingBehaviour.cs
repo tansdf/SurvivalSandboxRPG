@@ -19,16 +19,10 @@ public class WolfWalkingBehaviour : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log(Time.deltaTime);
         if(++counter == 5)
         {
             counter = 0;
             prevPos = animator.transform.position;
-        }
-
-        if(counter == 4)
-        {
-            Debug.Log(Vector2.Distance(prevPos, animator.transform.position));
         }
 
         if(Vector2.Distance(animator.transform.position, destination) < 0.1 || (Vector2.Distance(prevPos, animator.transform.position) < 0.003 * speed && counter == 4))
