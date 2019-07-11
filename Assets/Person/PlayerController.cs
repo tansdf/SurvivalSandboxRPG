@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour {
 		ProgressBar.SetActive (false);
         respectText.text = "";
 		anim = gameObject.GetComponent<Animator> ();
+		
 	}
 	
 	// Update is called once per frame
@@ -74,12 +75,24 @@ public class PlayerController : MonoBehaviour {
 
         if(Input.GetKeyDown("i"))
         {
-            if (inventoryController.gameObject.activeInHierarchy) inventoryController.gameObject.SetActive(false);
-            else inventoryController.gameObject.SetActive(true);
+            if (inventoryController.isOpen)
+			{
+				Debug.Log("Close");
+				inventoryController.HideInventory();
+			} 
+            else 
+			{
+				Debug.Log("Open");
+				inventoryController.OpenInventory();
+			}
         }
 
 		gameObject.GetComponent<SpriteRenderer>().sortingOrder = (int)((gameObject.transform.position.y-gameObject.GetComponent<SpriteRenderer>().bounds.size.y/2)*-100);
 
+		if(Input.GetAxis("Mouse ScrollWheel") != 0)
+		{
+			inventoryController.SetSelectedSlot(Input.GetAxis("Mouse ScrollWheel"));
+		}
 
     }
 
@@ -107,18 +120,12 @@ public class PlayerController : MonoBehaviour {
 
 	void Use()
 	{
-		InventoryScript InvScript = this.GetComponent<InventoryScript> ();
-		int selind =InvScript.SelectedIndex;
-		//Debug.Log (selind + "  " + InvScript.InventoryList.Count);
-		if (selind != -1 && InvScript.InventoryList.Count > selind) 
+		SlotComponent currentSlot = inventoryController.getSelectedSlot();
+		//Нужно будет поменять, когда в ItemData появиться как нибудь параметр на съедобность
+		if(currentSlot.getItemSlot() != null && currentSlot.getItemSlot().id == 0)
 		{
-			if (InvScript.SlotList [selind].name == "Apple") 
-			{
-				satiety += 50.0f;
-				if (satiety > 100)
-					satiety = 100.0f;
-				InvScript.DeleteFromInventory ("Apple", 1);
-			}
+			currentSlot.setItemCount(currentSlot.itemCount - 1);
+			satiety += 30;
 		}
 	}
 

@@ -6,33 +6,41 @@ using UnityEngine.UI;
 
 public class InventoryController : MonoBehaviour
 {
-    public ItemData itemInMouse;
-    public int itemCountinMouse;
-    public GameObject CopyingSlot;
-    private int selectedIndex = -1;
-    private int lastSelected = 0;
 
-    private SlotComponent[, ] SlotArray = new SlotComponent[8, 8];
+    [SerializeField]
+    private GameObject CopyingSlot;
+    [SerializeField]
+    private Text ItemBarText;
     [SerializeField]
     private SlotComponent[] ItemBar = new SlotComponent[8];
+    [SerializeField]
+    private GameObject MouseSlot;
+
+    private int selectedIndex = -1;
+    private int lastSelected = 0;
+    private SlotComponent[, ] SlotArray = new SlotComponent[8, 8];
+    
+
     public SlotComponent selectedSlot;
+    public bool isOpen = false;
+    public ItemData itemInMouse;
+    public int itemCountInMouse;
 
     void Start()
     {
         InitInventory();
     }
 
-    void Update()
-    {
-        if (Input.GetAxis("Mouse ScrollWheel") != 0)
-            SetSelectedSlot(Input.GetAxis("Mouse ScrollWheel"));
+    private void Update() {
+        MouseSlot.transform.position = Input.mousePosition + new Vector3(20, -20, 0);
     }
-
+   
     private void InitInventory()
     {
         Canvas.ForceUpdateCanvases();
         float size = 33.625f; 
         GameObject ItemsPanel = gameObject.transform.GetChild(0).gameObject; 
+        MouseSlot = GameObject.Find("MouseSlot");
         for(int i = 0; i < 8; i++)
         {
             for(int j = 0; j < 8; j++)
@@ -177,7 +185,7 @@ public class InventoryController : MonoBehaviour
         }
 	}
 
-    private void SetSelectedSlot(float scrollDir)
+    public void SetSelectedSlot(float scrollDir)
     {
 
         if (scrollDir < 0)
@@ -191,7 +199,11 @@ public class InventoryController : MonoBehaviour
         if (selectedIndex != -1)
         {
             ItemBar[selectedIndex].transform.localScale = new Vector2(1.15f, 1.15f);
-            if (selectedIndex < 8) ItemBar[selectedIndex].GetComponentInChildren<Text>().text = ItemBar[selectedIndex].getItemSlot().name;
+            if (selectedIndex < 8)
+            {
+                if(ItemBar[selectedIndex].getItemSlot() != null )ItemBarText.text = ItemBar[selectedIndex].getItemSlot().itemName;
+                else ItemBarText.text = "";
+            }
             ItemBar[lastSelected].transform.localScale = new Vector2(1.0f, 1.0f);
             lastSelected = selectedIndex;
         }
@@ -202,6 +214,38 @@ public class InventoryController : MonoBehaviour
     public SlotComponent getSelectedSlot()
     {
         return ItemBar[selectedIndex];
+    }
+    
+    public void HideInventory()
+    {
+        //gameObject.GetComponent<RectTransform>().Translate(5000, 0, 0);
+        gameObject.GetComponent<RectTransform>().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 5000, 0);
+        isOpen = false;
+    }
+
+    public void OpenInventory()
+    {
+        //gameObject.GetComponent<RectTransform>().Translate(-5000, 0, 0);
+        gameObject.GetComponent<RectTransform>().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 240, 0);
+        isOpen = true;
+    }
+
+    public void putItemInMouse(ItemData item, int count)
+    {
+        itemInMouse = item;
+        itemCountInMouse = count;
+        MouseSlot.GetComponent<Image>().sprite = item.icon;
+        MouseSlot.GetComponent<Image>().enabled = true;
+        MouseSlot.GetComponentInChildren<Text>().text = count.ToString();
+    }
+
+    public void clearItemInMouse()
+    {
+        itemInMouse = null;
+        itemCountInMouse = 0;
+        MouseSlot.GetComponent<Image>().sprite = SlotArray[0,0].uimask;
+        MouseSlot.GetComponent<Image>().enabled = false;
+        MouseSlot.GetComponentInChildren<Text>().text = ""; 
     }
 }
 
