@@ -7,6 +7,7 @@ TagManager:
   - MinedObjects
   - GraveForRespect
   - Mob
+  - Damage
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - 
   - 
   - UI1
-  - 
+  - Damage
   - 
   - 
   - 

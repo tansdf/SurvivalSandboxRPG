@@ -2011,11 +2011,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3137018550051142347}
     m_Modifications:
-    - target: {fileID: 2691665059878149520, guid: 9bafdb116563b7647bd01915b76da628,
-        type: 3}
-      propertyPath: m_Name
-      value: Inventory
-      objectReference: {fileID: 0}
     - target: {fileID: 5012831595550305774, guid: 9bafdb116563b7647bd01915b76da628,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2121,6 +2116,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 2691665059878149520, guid: 9bafdb116563b7647bd01915b76da628,
+        type: 3}
+      propertyPath: m_Name
+      value: Inventory
+      objectReference: {fileID: 0}
+    - target: {fileID: 1521332212028967700, guid: 9bafdb116563b7647bd01915b76da628,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1949394014491025836, guid: 9bafdb116563b7647bd01915b76da628,
         type: 3}
       propertyPath: CopyingSlot
@@ -2175,11 +2180,6 @@ PrefabInstance:
     - target: {fileID: 1949394014491025836, guid: 9bafdb116563b7647bd01915b76da628,
         type: 3}
       propertyPath: isOpen
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1521332212028967700, guid: 9bafdb116563b7647bd01915b76da628,
-        type: 3}
-      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 802771697127545137, guid: 9bafdb116563b7647bd01915b76da628,

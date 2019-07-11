@@ -5,6 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.Video;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 
@@ -25,6 +27,9 @@ public class PlayerController : MonoBehaviour {
 
     public Transform swipeParticle;
     public Transform parentForAttackAnim;
+	public VideoPlayer video;
+	bool isDead = false;
+
 
 
     void Start () {
@@ -33,65 +38,88 @@ public class PlayerController : MonoBehaviour {
 		ProgressBar.SetActive (false);
         respectText.text = "";
 		anim = gameObject.GetComponent<Animator> ();
-		
+		video.Play();
+		video.Pause();
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		Vector2 moveDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-		//Debug.Log (xMove + "    " + yMove);
-		if(moveDirection.magnitude != 0)
+		if(!isDead)
 		{
-			anim.SetFloat ("xMove", moveDirection.x);
-			anim.SetFloat ("yMove", moveDirection.y);
-			anim.SetBool("isRunning", true);
-		}
-		else
-		{
-			anim.SetBool("isRunning", false);
-		}
+			Vector2 moveDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+			//Debug.Log (xMove + "    " + yMove);
+			if(moveDirection.magnitude != 0)
+			{
+				anim.SetFloat ("xMove", moveDirection.x);
+				anim.SetFloat ("yMove", moveDirection.y);
+				anim.SetBool("isRunning", true);
+			}
+			else
+			{
+				anim.SetBool("isRunning", false);
+			}
 
-		transform.position += (Vector3)moveDirection.normalized*Time.deltaTime*speed;
+			transform.position += (Vector3)moveDirection.normalized*Time.deltaTime*speed;
+
+			if(hp==0)
+			{
+				foreach(var collider in Physics2D.OverlapCircleAll(transform.position, 0.5f, LayerMask.GetMask("Damage")))
+					Debug.Log(collider);
+				
+				if(Physics2D.OverlapCircleAll(transform.position, 0.5f, LayerMask.GetMask("Damage")).Length > 0)
+				{
+					anim.SetTrigger("DeadLava");
+				}
+				else
+				{
+					anim.SetTrigger("DeadHunger");
+				}
+				isDead = true;
+			}
+		}
 	}
 
 	void Update()
 	{
-		if (satiety >= 0) 
+		if(!isDead)
 		{
-			satiety = satiety - Time.deltaTime;
-			HungerBar.GetComponent<Slider> ().value = satiety / 100;
-		}
-		if (hp >= 0.0f) 
-			HPBar.GetComponent<Slider> ().value = hp / 100;
-		if (satiety <= 0)
-			ApplyDamage(Time.deltaTime * 5);
-		if (Input.GetKeyUp ("e"))
-			Use();
-        if (Input.GetMouseButtonDown(0))
-        {
-            DrawAttack();
-			Attack();
-        }
-
-        if(Input.GetKeyDown("i"))
-        {
-            if (inventoryController.isOpen)
+			if (satiety >= 0) 
 			{
-				Debug.Log("Close");
-				inventoryController.HideInventory();
-			} 
-            else 
-			{
-				Debug.Log("Open");
-				inventoryController.OpenInventory();
+				satiety = satiety - Time.deltaTime;
+				HungerBar.GetComponent<Slider> ().value = satiety / 100;
 			}
-        }
+			if (hp >= 0.0f) 
+				HPBar.GetComponent<Slider> ().value = hp / 100;
+			if (satiety <= 0)
+				ApplyDamage(Time.deltaTime * 5);
+			if (Input.GetKeyUp ("e"))
+				Use();
+			if (Input.GetMouseButtonDown(0))
+			{
+				DrawAttack();
+				Attack();
+			}
 
-		gameObject.GetComponent<SpriteRenderer>().sortingOrder = (int)((gameObject.transform.position.y-gameObject.GetComponent<SpriteRenderer>().bounds.size.y/2)*-100);
+			if(Input.GetKeyDown("i"))
+			{
+				if (inventoryController.isOpen)
+				{
+					Debug.Log("Close");
+					inventoryController.HideInventory();
+				} 
+				else 
+				{
+					Debug.Log("Open");
+					inventoryController.OpenInventory();
+				}
+			}
 
-		if(Input.GetAxis("Mouse ScrollWheel") != 0)
-		{
-			inventoryController.SetSelectedSlot(Input.GetAxis("Mouse ScrollWheel"));
+			gameObject.GetComponent<SpriteRenderer>().sortingOrder = (int)((gameObject.transform.position.y-gameObject.GetComponent<SpriteRenderer>().bounds.size.y/2)*-100);
+
+			if(Input.GetAxis("Mouse ScrollWheel") != 0)
+			{
+				inventoryController.SetSelectedSlot(Input.GetAxis("Mouse ScrollWheel"));
+			}
 		}
 
     }
@@ -178,5 +206,18 @@ public class PlayerController : MonoBehaviour {
 		{
 			hp=0;
 		}
+	}
+
+	private IEnumerator WaitVideo()
+    {
+        yield return new WaitForSecondsRealtime(5.0f);
+		video.Stop();
+		SceneManager.LoadScene("MenuScene");
+    }
+
+	void Dead()
+	{
+		video.Play();
+		StartCoroutine("WaitVideo");
 	}
 }
