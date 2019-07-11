@@ -311,6 +311,36 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 114892048018721910, guid: e2adfae3fe90f4041b72d675f99d0d2e,
+        type: 3}
+      propertyPath: m_FontData.m_BestFit
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114892048018721910, guid: e2adfae3fe90f4041b72d675f99d0d2e,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 114892048018721910, guid: e2adfae3fe90f4041b72d675f99d0d2e,
+        type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114892048018721910, guid: e2adfae3fe90f4041b72d675f99d0d2e,
+        type: 3}
+      propertyPath: m_FontData.m_HorizontalOverflow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114892048018721910, guid: e2adfae3fe90f4041b72d675f99d0d2e,
+        type: 3}
+      propertyPath: m_FontData.m_RichText
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114892048018721910, guid: e2adfae3fe90f4041b72d675f99d0d2e,
+        type: 3}
+      propertyPath: m_FontData.m_VerticalOverflow
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2adfae3fe90f4041b72d675f99d0d2e, type: 3}
 --- !u!224 &7576789921682817932 stripped

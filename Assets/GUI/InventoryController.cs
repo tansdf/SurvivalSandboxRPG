@@ -6,20 +6,25 @@ using UnityEngine.UI;
 
 public class InventoryController : MonoBehaviour
 {
-    public ItemData itemInMouse;
-    public int itemCountInMouse;
-    public GameObject CopyingSlot;
-    public GameObject MouseSlot;
-    private int selectedIndex = -1;
-    private int lastSelected = 0;
 
-    private SlotComponent[, ] SlotArray = new SlotComponent[8, 8];
+    [SerializeField]
+    private GameObject CopyingSlot;
+    [SerializeField]
+    private Text ItemBarText;
     [SerializeField]
     private SlotComponent[] ItemBar = new SlotComponent[8];
-    public SlotComponent selectedSlot;
+    [SerializeField]
+    private GameObject MouseSlot;
 
-    //Нужно будет снять галочки, чтобы инвентарь не был открыт сразу
-    public bool isOpen = true;
+    private int selectedIndex = -1;
+    private int lastSelected = 0;
+    private SlotComponent[, ] SlotArray = new SlotComponent[8, 8];
+    
+
+    public SlotComponent selectedSlot;
+    public bool isOpen = false;
+    public ItemData itemInMouse;
+    public int itemCountInMouse;
 
     void Start()
     {
@@ -194,7 +199,11 @@ public class InventoryController : MonoBehaviour
         if (selectedIndex != -1)
         {
             ItemBar[selectedIndex].transform.localScale = new Vector2(1.15f, 1.15f);
-            //if (selectedIndex < 8) ItemBar[selectedIndex].GetComponentInChildren<Text>().text = ItemBar[selectedIndex].getItemSlot().name;
+            if (selectedIndex < 8)
+            {
+                if(ItemBar[selectedIndex].getItemSlot() != null )ItemBarText.text = ItemBar[selectedIndex].getItemSlot().itemName;
+                else ItemBarText.text = "";
+            }
             ItemBar[lastSelected].transform.localScale = new Vector2(1.0f, 1.0f);
             lastSelected = selectedIndex;
         }
@@ -209,36 +218,15 @@ public class InventoryController : MonoBehaviour
     
     public void HideInventory()
     {
-        /*var Images = gameObject.GetComponentsInChildren<Image>();
-        var Buttons = gameObject.GetComponentsInChildren<Button>();
-        foreach(var el in Images)
-        {
-            el.enabled = false;
-        }
-        foreach(var el in Buttons)
-        {
-            el.enabled = false;
-        }
-        isOpen = false;*/
-        gameObject.GetComponent<RectTransform>().Translate(5000, 0, 0);
+        //gameObject.GetComponent<RectTransform>().Translate(5000, 0, 0);
+        gameObject.GetComponent<RectTransform>().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 5000, 0);
         isOpen = false;
     }
 
     public void OpenInventory()
     {
-        /*var Images = gameObject.GetComponentsInChildren<Image>();
-        var Buttons = gameObject.GetComponentsInChildren<Button>();
-        foreach(var el in Images)
-        {
-            el.enabled = true;
-        }
-        foreach(var el in Buttons)
-        {
-            el.enabled = true;
-        }
-        isOpen = true;
-        */
-        gameObject.GetComponent<RectTransform>().Translate(-5000, 0, 0);
+        //gameObject.GetComponent<RectTransform>().Translate(-5000, 0, 0);
+        gameObject.GetComponent<RectTransform>().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 240, 0);
         isOpen = true;
     }
 
@@ -247,6 +235,7 @@ public class InventoryController : MonoBehaviour
         itemInMouse = item;
         itemCountInMouse = count;
         MouseSlot.GetComponent<Image>().sprite = item.icon;
+        MouseSlot.GetComponent<Image>().enabled = true;
         MouseSlot.GetComponentInChildren<Text>().text = count.ToString();
     }
 
@@ -255,6 +244,7 @@ public class InventoryController : MonoBehaviour
         itemInMouse = null;
         itemCountInMouse = 0;
         MouseSlot.GetComponent<Image>().sprite = SlotArray[0,0].uimask;
+        MouseSlot.GetComponent<Image>().enabled = false;
         MouseSlot.GetComponentInChildren<Text>().text = ""; 
     }
 }
